@@ -1,0 +1,98 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "MSP432P401R" --package "PZ100" --part "Default" --product "simplelink_msp432p4_sdk@3.40.01.02"
+ * @versions {"data":"2020090214","timestamp":"2020090214","tool":"1.6.0+1543","templates":"2020090214"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const GPIO      = scripting.addModule("/ti/drivers/GPIO", {}, false);
+const GPIO1     = GPIO.addInstance();
+const GPIO2     = GPIO.addInstance();
+const GPIO3     = GPIO.addInstance();
+const GPIO4     = GPIO.addInstance();
+const GPIO5     = GPIO.addInstance();
+const GPIO6     = GPIO.addInstance();
+const Power     = scripting.addModule("/ti/drivers/Power");
+const RTOS      = scripting.addModule("/ti/drivers/RTOS");
+const SD        = scripting.addModule("/ti/drivers/SD", {}, false);
+const SD1       = SD.addInstance();
+const SPI       = scripting.addModule("/ti/drivers/SPI", {}, false);
+const SPI1      = SPI.addInstance();
+const UART      = scripting.addModule("/ti/drivers/UART", {}, false);
+const UART1     = UART.addInstance();
+const UART2     = UART.addInstance();
+const UART3     = UART.addInstance();
+const Watchdog  = scripting.addModule("/ti/drivers/Watchdog", {}, false);
+const Watchdog1 = Watchdog.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+GPIO1.$name           = "CONFIG_GPIO_SIM_PWRKEY";
+GPIO1.gpioPin.$assign = "P4.1.GPIO/ADC14.A12";
+
+GPIO2.$name           = "CONFIG_GPIO_SIM_RST";
+GPIO2.gpioPin.$assign = "P4.6.GPIO/ADC14.A7";
+
+GPIO3.$name           = "CONFIG_GPIO_RADAR_PMIC_EN";
+GPIO3.gpioPin.$assign = "P2.7.GPIO/Timer_A0.CCI4A/Timer_A0.Out4";
+
+GPIO4.$name           = "CONFIG_GPIO0_BTN";
+GPIO4.gpioPin.$assign = "P4.5.GPIO/ADC14.A8";
+
+GPIO5.$name           = "CONFIG_D1_LED";
+GPIO5.gpioPin.$assign = "P9.0.GPIO/ADC14.A17";
+
+GPIO6.$name           = "CONFIG_D2_LED";
+GPIO6.gpioPin.$assign = "P9.1.GPIO/ADC14.A16";
+
+Power.performanceLevel3.$name = "ti_drivers_power_PowerMSP432PerfLevels0";
+Power.performanceLevel2.$name = "ti_drivers_power_PowerMSP432PerfLevels1";
+Power.performanceLevel1.$name = "ti_drivers_power_PowerMSP432PerfLevels2";
+Power.performanceLevel0.$name = "ti_drivers_power_PowerMSP432PerfLevels3";
+
+
+SD1.$name                       = "CONFIG_SD_0";
+SD1.useFatFS                    = true;
+SD1.slaveSelect.$name           = "CONFIG_SD_GPIO";
+SD1.slaveSelect.gpioPin.$assign = "P1.4.GPIO/EUSCI_B0_SPI.STE";
+
+SD1.spiInstance  = SPI1;
+SPI1.$name       = "CONFIG_SD_SPI";
+SPI1.spi.$assign = "EUSCI_B0";
+
+UART1.$name = "CONFIG_CLI_UART";
+
+UART2.baudRates    = [1200,2400,4800,9600,19200,38400,57600,115200,230400,460800,921600];
+UART2.$name        = "CONFIG_SIM_UART";
+UART2.uart.$assign = "EUSCI_A3";
+
+UART3.$name              = "CONFIG_SENSOR_UART";
+UART3.uart.$assign       = "EUSCI_A2";
+UART3.uart.txPin.$assign = "P3.3.GPIO/EUSCI_A2_UART.TXD/EUSCI_A2_SPI.SIMO";
+UART3.uart.rxPin.$assign = "P3.2.GPIO/EUSCI_A2_UART.RXD/EUSCI_A2_SPI.SOMI";
+
+Watchdog1.$name  = "CONFIG_WATCHDOG_0";
+Watchdog1.period = 16000;
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+RTOS.timer0.resource.$suggestSolution        = "Timer_A0";
+SPI1.spi.sclkPin.$suggestSolution            = "P1.5.GPIO/EUSCI_B0_SPI.CLK";
+SPI1.spi.misoPin.$suggestSolution            = "P1.7.GPIO/EUSCI_B0_SPI.SOMI/EUSCI_B0_I2C.SCL";
+SPI1.spi.mosiPin.$suggestSolution            = "P1.6.GPIO/EUSCI_B0_SPI.SIMO/EUSCI_B0_I2C.SDA";
+SPI1.spi.dmaRxChannel.$suggestSolution       = "DMA_CH1";
+SPI1.spi.dmaTxChannel.$suggestSolution       = "DMA_CH0";
+SPI1.spi.dmaInterruptNumber.$suggestSolution = "DMA_INT0";
+UART1.uart.$suggestSolution                  = "EUSCI_A0";
+UART1.uart.txPin.$suggestSolution            = "P1.3.GPIO/EUSCI_A0_UART.TXD/EUSCI_A0_SPI.SIMO";
+UART1.uart.rxPin.$suggestSolution            = "P1.2.GPIO/EUSCI_A0_UART.RXD/EUSCI_A0_SPI.SOMI";
+UART2.uart.txPin.$suggestSolution            = "P9.7.GPIO/EUSCI_A3_UART.TXD/EUSCI_A3_SPI.SIMO";
+UART2.uart.rxPin.$suggestSolution            = "P9.6.GPIO/EUSCI_A3_UART.RXD/EUSCI_A3_SPI.SOMI";
+Watchdog1.watchdog.$suggestSolution          = "WATCHDOG";
